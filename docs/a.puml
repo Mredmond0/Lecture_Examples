@@ -1,0 +1,35 @@
+@startuml
+interface ILogParser {
+  + Parse(lines) : IEnumerable<LogEntry>
+}
+interface ILogFilter {
+  + ShouldLog(entry) : bool
+}
+interface ILogSink {
+  + Write(entry)
+}
+interface ILogFormatter {
+  + Format(entry) : string
+}
+
+class MultiLineLogParser
+class SeverityFilter
+class ConsoleSink
+class FileSink
+class PlainFormatter
+
+class LogProcessor {
+  + Process(lines)
+}
+
+LogProcessor --> ILogParser
+LogProcessor --> ILogFilter
+LogProcessor --> ILogSink
+LogProcessor --> ILogFormatter
+
+ILogParser <|.. MultiLineLogParser
+ILogFilter <|.. SeverityFilter
+ILogSink <|.. ConsoleSink
+ILogSink <|.. FileSink
+ILogFormatter <|.. PlainFormatter
+@enduml
